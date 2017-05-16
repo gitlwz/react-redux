@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var buildPath = path.resolve(__dirname,"build");
 var nodemodulesPath = path.resolve(__dirname,'node_modules');
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
@@ -9,11 +8,12 @@ module.exports = {
   devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项(用来方便调试代码的)
   entry: [ 
      'webpack/hot/dev-server',//注意点1：热替换配置点1
-      path.resolve(__dirname,"app/routes/index.js")
+      "./app/routes/index.js"
   ],//已多次提及的唯一入口文件
   output: {
-    path: __dirname + "/public",//打包后的文件存放的地方
-    filename: "bundle.js"//打包后输出文件的文件名
+    path: path.join(__dirname),//打包后的文件存放的地方
+    filename: "public/bundle.js",//打包后输出文件的文件名
+    publicPath: '/'
   },
   module: {//在配置文件里添加JSON loader
     loaders: [
@@ -46,9 +46,9 @@ module.exports = {
     require('autoprefixer')//调用autoprefixer插件
   ],
   devServer: {
-    contentBase:"./public",//本地服务器所加载的页面所在的目录
-    colors: true,//终端中输出结果为彩色
-    historyApiFallback: true,//不跳转
+    contentBase:path.join(__dirname),//本地服务器所加载的页面所在的目录
+    // colors: true,//终端中输出结果为彩色
+    // historyApiFallback: true,//不跳转
     inline: true,//实时刷新
     hot:true,
     devtool:'eval-source-map'
@@ -56,6 +56,5 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),//开启热替换插件
     new webpack.NoErrorsPlugin()
-    // new OpenBrowserPlugin({url:"http://localhost:8080"})
   ]
 }

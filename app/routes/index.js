@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Route, IndexRoute, browserHistory, Router} from 'react-router';
+import {Route, IndexRoute, hashHistory, Router} from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux'
+
 import {Provider} from 'react-redux';
 import App from '../container/App';
 import Page1 from '../components/page1';
-import Page2 from '../components/page2';
-// import TodoRoute from './routes/TodoRoute';
-// import DoingRoute from './routes/DoingRoute';
-// import DoneRoute from './routes/DoneRoute';
+import Page2 from '../components/page2';;
 import configureStore from '../stores';
 const store = configureStore();
+const history = syncHistoryWithStore(hashHistory, store)
+function aa(){
+	console.log(11111111111)
+}
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
+        <Router history={history} >
             <Route path="/"  component={App}>
-                <IndexRoute component={Page1}/>
-               <Route path="Page2" component={Page2}/>
+               <IndexRoute onEnter={aa} component={Page1}/>
+               <Route onEnter={aa} path="Page2" component={Page2}/>
             </Route>
         </Router>
    </Provider>,

@@ -1,5 +1,5 @@
-export default function change(state,action){
+export default function change(state = {value:'default'},action){
   if(action.type=="ADD")
-  	return{value:action.value};
-  return {value:'default'};
+  	return Object.assign({},state,{value:action.value});
+  return state;
 }
